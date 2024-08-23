@@ -1,1 +1,3 @@
-export const schemaTypes = []
+import {Testimonials} from './schemas'
+
+export const schemaTypes = [Testimonials]
