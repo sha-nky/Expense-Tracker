@@ -1,33 +1,41 @@
 import React, {useState, useEffect} from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Navbar, Footer } from "./Components";
+import { Home, AboutUs } from "./Pages";
 
-import { getAllTestimonials } from "./api/apiCalls";
+// import { getAllTestimonials } from "./api/apiCalls";
 
 function App() {
 
-  const [testimonials, setTestimonials] = useState([]);
+  // const [testimonials, setTestimonials] = useState([]);
 
-  useEffect(() => {
-    const fetchTestimonials = async () => {
-      // setLoading(true);
-      const data = await getAllTestimonials();
-      if (data.error) {
-        // setError(true);
-        console.log(data.error)
-      } else {
-        setTestimonials(data);
-        console.log(data);
-        // animationDurationRef.current = data.length * 3.5;
-      }
-      // setLoading(false);
-    };
+  // useEffect(() => {
+  //   const fetchTestimonials = async () => {
+  //     // setLoading(true);
+  //     const data = await getAllTestimonials();
+  //     if (data.error) {
+  //       // setError(true);
+  //       console.log(data.error)
+  //     } else {
+  //       setTestimonials(data);
+  //       console.log(data);
+  //       // animationDurationRef.current = data.length * 3.5;
+  //     }
+  //     // setLoading(false);
+  //   };
 
-    fetchTestimonials();
-  }, []);
+  //   fetchTestimonials();
+  // }, []);
 
   return (
-    <div className="w-full h-[100vh]">
-      <p className='text-center text-5xl text-red-500'>HELLOOO !!!</p>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about-us" element={<AboutUs />} />
+      </Routes>
+      <Footer />
+    </Router>
   )
 }
 
