@@ -5,9 +5,6 @@ function AboutUs() {
   return (
     <div>
       AboutUs {" "}
-      <Link to={'/'}>
-        Back to home
-      </Link>
     </div>
   )
 }
