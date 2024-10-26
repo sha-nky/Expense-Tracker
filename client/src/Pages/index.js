@@ -1,7 +1,11 @@
 import AboutUs from "./AboutUs";
-import Home from "./Home";
+import Overview from "./Overview";
+import LoginPage from "./LoginPage";
+import Profile from "./Profile";
 
 export {
-    Home,
+    Overview,
     AboutUs,
+    LoginPage,
+    Profile,
 }
