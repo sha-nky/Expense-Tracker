@@ -15,3 +15,15 @@ export const getAllTestimonials = async () => {
       return { error: "Failed to fetch testimonials" };
     }
   };
+
+  export const getAllUsers = async () => {
+    const query = '*[_type == "users"]';
+    try {
+      const response = await client.fetch(query);
+      // console.log(response);
+      return response;
+    } catch (error) {
+      console.log("Error fetching users: ", error);
+      return { error: "Failed to fetch users" };
+    }
+  };

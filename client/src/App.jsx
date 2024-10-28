@@ -1,44 +1,30 @@
 import React, {useState, useEffect} from "react"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./Components";
 import { Overview, AboutUs, LoginPage, Profile } from "./Pages";
 
-// import { getAllTestimonials } from "./api/apiCalls";
-
 function App() {
-
-  // const [testimonials, setTestimonials] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchTestimonials = async () => {
-  //     // setLoading(true);
-  //     const data = await getAllTestimonials();
-  //     if (data.error) {
-  //       // setError(true);
-  //       console.log(data.error)
-  //     } else {
-  //       setTestimonials(data);
-  //       console.log(data);
-  //       // animationDurationRef.current = data.length * 3.5;
-  //     }
-  //     // setLoading(false);
-  //   };
-
-  //   fetchTestimonials();
-  // }, []);
+  const location = useLocation();
+  const hideNavbarPaths = ['/'];
 
   return (
-    <Router>
-      <Navbar />
+    <div>
+      {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       {/* <Footer /> */}
-    </Router>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+const MainRouter = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default MainRouter;

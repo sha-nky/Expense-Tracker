@@ -1,7 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { FaUserCircle } from 'react-icons/fa';
 
 const Profile = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    navigate("/");
+  }
+
   return (
     <div className="bg-teal-500 p-6 rounded-lg shadow-md">
       <div className="flex items-center mb-4">
@@ -24,7 +34,10 @@ const Profile = () => {
         <button className="w-full bg-white text-teal-500 p-3 rounded-md flex items-center">
           <span className="mr-2">📊</span> Export Data
         </button>
-        <button className="w-full bg-white text-teal-500 p-3 rounded-md flex items-center">
+        <button 
+          className="w-full bg-white text-teal-500 p-3 rounded-md flex items-center"
+          onClick={handleLogout}
+        >
           <span className="mr-2">🚪</span> Logout
         </button>
       </div>
