@@ -72,7 +72,11 @@ function LoginPage(){
           background: "linear-gradient(to right, #fff 70%, #38b2ac 95%)",
         }}
       >
-        <img src={lorem} alt="Budgeting" className="w-[30vw] h-[40vh] mb-4" />
+        <img 
+          src={lorem} 
+          alt="Budgeting" 
+          className="w-[30vw] h-[40vh] mb-4 rounded-2xl" 
+        />
         <h1 className="text-2xl font-bold">Spend Wisely, Stress Less -</h1>
         <h2 className="text-lg mt-2">Student Budgeting Made Easy.</h2>
       </div>
