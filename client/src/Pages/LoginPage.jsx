@@ -65,7 +65,7 @@ function LoginPage(){
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row h-screen">
       <div 
         className="flex-1 flex flex-col justify-center items-start p-10"
         style={{
