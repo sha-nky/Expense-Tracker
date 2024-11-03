@@ -1,30 +1,30 @@
-const express = require('express')
-const cors = require('cors')
-const morgan = require('morgan')
-const dotenv = require('dotenv')
-const colors = require('colors')
-const connectDb = require('./config/connectDb')
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+const dotenv = require("dotenv");
+const colors = require("colors");
+const connectDb = require("./config/connectDb");
 
 // Config .env file
-dotenv.config()
+dotenv.config();
 
 // Database call
-connectDb()
+connectDb();
 
 // Rest object
-const app = express()
+const app = express();
 
 // Middleware
-app.use(morgan('dev'))
-app.use(express.json())
-app.use(cors())
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(cors());
 
 // Routes
-app.get('/', (req, res) => {
-    return res.send("<h1>Hello From Server")
-})
+app.get("/", (req, res) => {
+  return res.send("<h1>Hello From Server");
+});
 
 // Port
-const PORT = 8000 || process.env.PORT
+const PORT = 8000 || process.env.PORT;
 
-app.listen(PORT, () => console.log(`Server started at PORT: ${PORT}`))
+app.listen(PORT, () => console.log(`Server started at PORT: ${PORT}`));
