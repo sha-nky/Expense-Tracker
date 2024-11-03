@@ -23,8 +23,23 @@ async function handleLogin(req, res) {
 
 async function handleSignUp(req, res) {
   try {
-    const newUser = new userModel(req.body)
-    await newUser.save()
+    const body = req.body
+    if(
+      !body || 
+      !body.name || 
+      !body.email || 
+      !body.number || 
+      !body.password
+    ){
+        return res.status(400).json({msg: "All fields are required"});
+    }
+    const newUser = await userModel.create({
+      name: body.name,
+      email: body.email,
+      number: body.number,
+      password: body.password
+    })
+    
     res.status(201).json({
       success: true,
       newUser
