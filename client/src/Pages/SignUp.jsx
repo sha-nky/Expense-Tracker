@@ -1,66 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { FaAsterisk, FaSpinner } from "react-icons/fa";
+import axios from 'axios';
 
 import ToastMsg from "../Constants/ToastMsg";
 import { lorem } from '../assets';
 
 import { getAllUsers } from '../api/apiCalls';
+import { signupFunction } from '../services/API';
 
 function SignUpPage() {
   const navigate = useNavigate();
   const [formLoading, setFormLoading] = useState(false);
-  const [users, setUsers] = useState([]);
 
-  // Fetching all the users from sanity
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await getAllUsers();
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setUsers(data);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  // Form handling
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
     reset,
   } = useForm();
 
-  // Sign Up function
-  const handleSignUp = async (formData) => {
+  const handleSignup = async (formData) =>{
     setFormLoading(true);
-
     try {
-      const { username, password, phoneNumber, email, dateOfBirth } = formData;
+      const {name, password, email, number} = formData;
 
-      // Check if the username already exists
-      const userExists = users.some((user) => user.username === username);
-
-      if (userExists) {
-        ToastMsg("Username already exists", "error");
-      } else {
-        // Ideally, you would send a request to your backend to create a new user
-        // Here we're just simulating a successful sign up
-        ToastMsg("Sign Up Successful!", "success");
-        navigate("/overview");
+      const response = await signupFunction(
+        name,
+        password,
+        email,
+        number,
+      );
+      if(response.status === 201){
+        ToastMsg(response.data.message, "success");
+        navigate('/');
         reset();
       }
+      else{
+        ToastMsg(response.response.data.message, "error");
+      }
     } catch (error) {
-      ToastMsg("Server error! Please try later", "error");
+      ToastMsg("Server error! please try later", "error");
       console.log("Internal Server Error: ", error);
     } finally {
       setFormLoading(false);
     }
-  };
+  }
 
   return (
     <div className="flex h-screen">
@@ -89,12 +77,12 @@ function SignUpPage() {
           <h2 className="text-2xl font-bold text-teal-400 mb-6">SIGN UP</h2>
           <form 
             className="w-full max-w-sm" 
-            onSubmit={handleSubmit(handleSignUp)}
+            onSubmit={handleSubmit(handleSignup)}
             noValidate
           >
             <div className="mb-3 w-full px-2">
               <label 
-                htmlFor="username" 
+                htmlFor="name" 
                 className="text-sm font-medium text-gray-700 flex items-center"
               >
                 Username{" "}
@@ -102,19 +90,19 @@ function SignUpPage() {
               </label>
               <input
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                  errors.username ? "border-red-500" : ""
+                  errors.name ? "border-red-500" : ""
                 }`}
                 type="text"
-                id="username"
-                name="username"
+                id="name"
+                name="name"
                 placeholder="Username"
-                {...register("username", {
+                {...register("name", {
                   required: "Username is required",
                 })}
               />
-              {errors.username && (
+              {errors.name && (
                 <div className="text-red-500 text-sm mt-1">
-                  {errors.username.message}
+                  {errors.name.message}
                 </div>
               )}
             </div>
@@ -150,7 +138,7 @@ function SignUpPage() {
 
             <div className="mb-3 w-full px-2">
               <label 
-                htmlFor="phoneNumber" 
+                htmlFor="number" 
                 className="text-sm font-medium text-gray-700 flex items-center"
               >
                 Phone Number{" "}
@@ -158,13 +146,13 @@ function SignUpPage() {
               </label>
               <input
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                  errors.phoneNumber ? "border-red-500" : ""
+                  errors.number ? "border-red-500" : ""
                 }`}
                 type="text"
-                id="phoneNumber"
-                name="phoneNumber"
+                id="number"
+                name="number"
                 placeholder="Phone Number"
-                {...register("phoneNumber", {
+                {...register("number", {
                   required: "Phone number is required",
                   pattern: {
                     value: /^[0-9]{10}$/,
@@ -172,8 +160,8 @@ function SignUpPage() {
                   },
                 })}
               />
-              {errors.phoneNumber && (
-                <div className="text-red-500 text-sm mt-1">{errors.phoneNumber.message}</div>
+              {errors.number && (
+                <div className="text-red-500 text-sm mt-1">{errors.number.message}</div>
               )}
             </div>
 
@@ -206,7 +194,7 @@ function SignUpPage() {
               )}
             </div>
 
-            <div className="mb-3 w-full px-2">
+            {/* <div className="mb-3 w-full px-2">
               <label 
                 htmlFor="dateOfBirth" 
                 className="text-sm font-medium text-gray-700 flex items-center"
@@ -229,7 +217,7 @@ function SignUpPage() {
               {errors.dateOfBirth && (
                 <div className="text-red-500 text-sm mt-1">{errors.dateOfBirth.message}</div>
               )}
-            </div>
+            </div> */}
 
             <div className="mt-3 text-center">
               <button
@@ -252,7 +240,9 @@ function SignUpPage() {
           </form>
         </div>
         <p className="text-white mt-4">
-          <a href="#" className="hover:underline">Already have an account? Login</a>
+          <Link to="/" className="hover:underline">
+            Already have an account? Login
+          </Link>
         </p>
       </div>
     </div>

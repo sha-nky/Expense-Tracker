@@ -2,17 +2,27 @@ const userModel = require("../models/userModel");
 
 async function handleLogin(req, res) {
   try {
-    const { number, password } = req.body;
-    const user = await userModel.findOne({ number, password });
-
-    if (!user) {
-      return res.status(404).send("User Not Found!");
+    const body = req.body
+    if(
+      !body || 
+      !body.number || 
+      !body.password
+    ){
+        return res.status(400).json({msg: "All fields are required"});
     }
 
-    res.status(200).json({
-      success: true,
-      user,
-    });
+    const user = await userModel.findOne({ number:body.number });
+    if(user){
+      const passwordCheck = (user.password === body.password);
+
+      if(passwordCheck){
+        return res.status(201).json({
+          message: "Login Successfull!",
+        });
+      }
+    } else {
+      return res.status(400).json({ message: "Wrong Password" });
+    }
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -33,17 +43,21 @@ async function handleSignUp(req, res) {
     ){
         return res.status(400).json({msg: "All fields are required"});
     }
-    const newUser = await userModel.create({
-      name: body.name,
-      email: body.email,
-      number: body.number,
-      password: body.password
-    })
+
+    const existingUser = await userModel.findOne({ number: body.number });
     
-    res.status(201).json({
-      success: true,
-      newUser
-    })
+    if (existingUser) {
+      return res.status(400).json({ message: "User Already Exists" });
+    } else {
+      const newUser = await userModel.create({
+        name: body.name,
+        password: body.password,
+        email: body.email,
+        number: body.number,
+      })
+      
+      return res.status(201).json({ message: "SignUp Successful!", newUser });
+    }
   } catch (error) {
     res.status(400).json({
       success: false,

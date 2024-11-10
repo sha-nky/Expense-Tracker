@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react"
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./Components";
-import { Overview, AboutUs, LoginPage, Profile } from "./Pages";
+import { Overview, AboutUs, LoginPage, Profile, SignUpPage } from "./Pages";
 
 function App() {
   const location = useLocation();
-  const hideNavbarPaths = ['/'];
+  const hideNavbarPaths = ['/', '/signup'];
 
   return (
     <div>
@@ -15,6 +15,7 @@ function App() {
         <Route path="/overview" element={<Overview />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
       {/* <Footer /> */}
     </div>

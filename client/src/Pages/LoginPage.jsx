@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { FaAsterisk, FaSpinner } from "react-icons/fa";
 
@@ -7,26 +7,11 @@ import ToastMsg from "../Constants/ToastMsg";
 import { lorem } from '../assets';
 
 import { getAllUsers } from '../api/apiCalls';
+import { loginFunction } from '../services/API';
 
 function LoginPage(){
   const navigate = useNavigate();
   const [formLoading, setFormLoading] = useState(false);
-  const [users, setUsers] = useState([]);
-
-  // Fetching all the users form sanity
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await getAllUsers();
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setUsers(data);
-        // console.log(data);
-      }
-    };
-
-    fetchUsers();
-  }, []);
 
   // Form handling
   const {
@@ -39,22 +24,23 @@ function LoginPage(){
   } = useForm();
 
   // Login function
-  const handleLogin = async (formData) => {
+  const handleLogin = async (formData) =>{
+    console.log(formData)
     setFormLoading(true);
+    try {
+      const {number, password} = formData;
 
-    try{
-      const { username, password } = formData;
-
-      const user = users.find(
-        (user) => user.username === username && user.password === password
+      const response = await loginFunction(
+        number,
+        password,
       );
-
-      if(user) {
-        ToastMsg("Login Successful !", "success");
-        navigate("/overview");
+      if(response.status === 201){
+        ToastMsg(response.data.message, "success");
+        navigate('/overview');
         reset();
-      } else {
-        ToastMsg("Invalid credentials", "error");
+      }
+      else{
+        ToastMsg(response.response.data.message, "error");
       }
     } catch (error) {
       ToastMsg("Server error! please try later", "error");
@@ -62,7 +48,7 @@ function LoginPage(){
     } finally {
       setFormLoading(false);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -96,22 +82,22 @@ function LoginPage(){
           >
             <div className="mb-3 w-full px-2">
               <label 
-                htmlFor="username" 
+                htmlFor="number" 
                 className="text-sm font-medium text-gray-700 flex items-center"
               >
-                Username{" "}
+                Phone Number{" "}
                 <FaAsterisk className="text-red-500 ml-[2px] text-[6px]" />
               </label>
               <input
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                  errors.username ? "border-red-500" : ""
+                  errors.number ? "border-red-500" : ""
                 }`}
                 type="text"
-                id="username"
-                name="username"
-                placeholder="Username"
-                {...register("username", {
-                  required: "Username is required",
+                id="number"
+                name="number"
+                placeholder="Phone Number"
+                {...register("number", {
+                  required: "Phone number is required",
                   // pattern: {
                   //   value:
                   //     /^[A-Za-z]+\.?[A-Za-z0-9]+[0-9]{4}[A-Za-z]*@vitstudent\.ac\.in$|^(1|2)[0-9](B|M)[A-Z]{2}[0-9]{4}$/,
@@ -119,9 +105,9 @@ function LoginPage(){
                   // },
                 })}
               />
-              {errors.username && (
+              {errors.number && (
                 <div className="text-red-500 text-sm mt-1">
-                  {errors.username.message}
+                  {errors.number.message}
                 </div>
               )}
             </div>
@@ -179,7 +165,7 @@ function LoginPage(){
           <a href="#" className="hover:underline">Forgot Password?</a>
         </p>
         <p className="text-white mt-2">
-          Don't have an account yet? <a href="#" className="hover:underline">Sign Up</a>
+          Don't have an account yet? <Link to="/signup" className="hover:underline">Sign Up</Link>
         </p>
       </div>
     </div>
