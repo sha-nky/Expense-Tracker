@@ -25,7 +25,6 @@ function LoginPage(){
 
   // Login function
   const handleLogin = async (formData) =>{
-    console.log(formData)
     setFormLoading(true);
     try {
       const {number, password} = formData;
