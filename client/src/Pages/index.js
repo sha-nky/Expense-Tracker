@@ -6,6 +6,7 @@ import SignUpPage from "./SignUp";
 import Expense from "./Expense";
 import Budget from "./Budget";
 import Transactions from "./Transactions";
+import CarbonFootprint from "./CarbonFootprint";
 
 export {
     Overview,
@@ -16,4 +17,5 @@ export {
     Expense,
     Budget,
     Transactions,
+    CarbonFootprint,
 }

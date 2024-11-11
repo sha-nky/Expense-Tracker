@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./Components";
-import { Overview, AboutUs, LoginPage, Profile, SignUpPage, Budget, Expense, Transactions } from "./Pages";
+import { Overview, AboutUs, LoginPage, Profile, SignUpPage, Budget, Expense, Transactions, CarbonFootprint } from "./Pages";
 
 function App() {
   const location = useLocation();
@@ -19,6 +19,8 @@ function App() {
         <Route path="/budgets" element={<Budget />} />
         <Route path="/expense" element={<Expense />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/carbon-footprint" element={<CarbonFootprint />} />
+
       </Routes>
       {/* <Footer /> */}
     </div>

@@ -6,7 +6,7 @@ import { FaAsterisk, FaSpinner } from "react-icons/fa";
 import ToastMsg from "../Constants/ToastMsg";
 import { lorem } from '../assets';
 
-import { getAllUsers } from '../api/apiCalls';
+// import { getAllUsers } from '../api/apiCalls';
 import { loginFunction } from '../services/API';
 
 function LoginPage(){
@@ -18,8 +18,6 @@ function LoginPage(){
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch,
     reset,
   } = useForm();
 
