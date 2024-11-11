@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./Components";
-import { Overview, AboutUs, LoginPage, Profile, SignUpPage } from "./Pages";
+import { Overview, AboutUs, LoginPage, Profile, SignUpPage, Budget, Expense, Transactions } from "./Pages";
 
 function App() {
   const location = useLocation();
@@ -16,6 +16,9 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/budgets" element={<Budget />} />
+        <Route path="/expense" element={<Expense />} />
+        <Route path="/transactions" element={<Transactions />} />
       </Routes>
       {/* <Footer /> */}
     </div>

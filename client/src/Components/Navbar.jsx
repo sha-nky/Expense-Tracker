@@ -36,14 +36,11 @@ const Navbar = () => {
           <Link to="/budgets" className="hover:text-gray-800">
             Budgets
           </Link>
-          <Link to="/wallet" className="hover:text-gray-800">
-            Wallet
-          </Link>
           <Link to="/expense" className="hover:text-gray-800">
             Expense
           </Link>
-          <Link to="/income" className="hover:text-gray-800">
-            Income
+          <Link to="/carbon-footprint" className="hover:text-gray-800">
+            Carbon Footprint
           </Link>
         </div>
       </div>
